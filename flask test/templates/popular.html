@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function openBook(link) {
+                window.open(link, '_blank');
+            }
+        </script>
+        <meta chastset="UTF-8">
+        <title>Snap</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='books.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    </head>
+    
+    <body>
+        <header>
+            <nav class = "navigation">
+                <h1 class = "logo">Snap</h1>
+                <a href="/">Home</a>
+                <a href="/recommend">Recommendation</a>
+                <a href="/popular">Popular</a>
+                <a href="#">Trending</a>
+                <a href="/catalogue">Catalogue</a>
+            </nav>
+            {% if logged_in == False %}
+            <button class = "btnLogin-popup">Login</button>
+            {% endif %}
+            {% if logged_in == True %}
+            <form action="/logout">
+                <button class = "btnLogout">Logout</button>
+            </form>
+            {% endif %}
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="home-heading">Top Popular Books</h1>
+                </div>
+                {% for i in range(book_name|length) %}
+                    <div class="col-md-3" style="margin-top:25px">
+                        <div class="card">
+                            <a href="/capture_click/{{ index[i] }}" onclick="openBook('{{ image[i] }}')">
+                                <div class="card-body">
+                                    <img class="card-img-top" src="{{ image[i] }}"> </img>
+                                    <h4>{{ book_name[i] }}</h4>
+                                    <h6>Author: {{ author[i] }}</h6>
+                                    <!-- <h6>Rating: {{ rating[i] }}</h6> -->
+                                    <!-- <h6>Votes: {{ votes[i] }}</h6> -->
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+            
+
+        <div class="wrapper">
+            <span class="icon-close">
+                <ion-icon name="close"></ion-icon>
+            </span>
+            <div class="form-box login">
+                <h2>Login</h2>
+                <form method="POST" action="/login_validation">
+                    <div class="input-box">
+                        <span class="icon">
+                            <ion-icon name="mail-sharp"></ion-icon>
+                        </span>
+                        <input type="email" required placeholder="123@abc.xyz" name="email_username">
+                        <label>Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-sharp"></ion-icon>
+                        </span>
+                        <input type="password" required placeholder="abc@123" name="password">
+                        <label>password</label>
+                    </div>
+                    <div class="forgot">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn" name="login">Login</button>
+                    <div class="login-register">
+                        <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="form-box register">
+                <h2>Registration</h2>
+                <form  method="POST" action="/registration">
+                    <div class="input-box">
+                        <span class="icon">
+                            <ion-icon name="person-sharp"></ion-icon>
+                        </span>
+                        <input type="text" required placeholder="abc123" name="Rusername">
+                        <label>Username</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <ion-icon name="mail-sharp"></ion-icon>
+                        </span>
+                        <input type="email" required placeholder="123@abc.xyz" name="Remail">
+                        <label>Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-sharp"></ion-icon>
+                        </span>
+                        <input type="password" required placeholder="abc@123" name="Rpassword">
+                        <label>password</label>
+                    </div>
+                    <button type="submit" class="btn" name="register">Register</button>
+                    <div class="login-register">
+                        <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+    </body>
+</html>
